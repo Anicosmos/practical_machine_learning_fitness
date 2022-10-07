@@ -16,11 +16,11 @@ available from the website here:
 
 ### Data
 
-The training data for this project are available here:
+The training data for this project can be found here:
 
 <https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv>
 
-The test data are available here:
+The test data can be found here:
 
 <https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv>
 
@@ -62,14 +62,14 @@ The test data are available here:
 
 ### Loading datasets
 
-Loading the training and the testing data into `df_train` and `df_test`
-with the setting that any instances of `NA` and `""` will be considered
-as `NA`.
+First we Load the training and the testing data into `df_train` and
+`df_test` and any instances of `NA` and `""` will be considered as `NA`.
 
     df_train <- read.csv('pml-training.csv', na.strings = c("NA", ""))
     df_test <- read.csv('pml-testing.csv', na.strings = c("NA", ""))
 
-Checking the dimensions of the training and testing data:
+Before Proceeding further lets Check the dimensions of the training and
+testing data:
 
     dim(df_train)
 
@@ -79,7 +79,7 @@ Checking the dimensions of the training and testing data:
 
     ## [1]  20 160
 
-Checking out the names of the columns in the dataset:
+And Checking out the names of the columns in the dataset:
 
     names(df_train)
 
@@ -164,15 +164,15 @@ Checking out the names of the columns in the dataset:
     ## [157] "magnet_forearm_x"         "magnet_forearm_y"        
     ## [159] "magnet_forearm_z"         "classe"
 
-The name of the target column is `classe`.
+The name of our target column is `classe`.
 
 ### Data Splitting
 
-Splitting the `df_train` into training and validation sets for **cross
-validation**:
+Splitting the `df_train` into training and validation sets for cross
+validation :
 
     train_idx <- createDataPartition(df_train$classe, p = 0.7, list = FALSE)
-    X_val <- df_train[-train_idx, ]
+    x_val <- df_train[-train_idx, ]
     df_train <- df_train[train_idx, ]
 
 Checking out the dimensions of these datasets:
@@ -181,7 +181,7 @@ Checking out the dimensions of these datasets:
 
     ## [1] 13737   160
 
-    dim(X_val)
+    dim(x_val)
 
     ## [1] 5885  160
 
@@ -198,23 +198,23 @@ Checking for the instances of missing values:
     ##               num_window                roll_belt               pitch_belt 
     ##                        0                        0                        0 
     ##                 yaw_belt         total_accel_belt       kurtosis_roll_belt 
-    ##                        0                        0                    13462 
+    ##                        0                        0                    13447 
     ##      kurtosis_picth_belt        kurtosis_yaw_belt       skewness_roll_belt 
-    ##                    13462                    13462                    13462 
+    ##                    13447                    13447                    13447 
     ##     skewness_roll_belt.1        skewness_yaw_belt            max_roll_belt 
-    ##                    13462                    13462                    13462 
+    ##                    13447                    13447                    13447 
     ##           max_picth_belt             max_yaw_belt            min_roll_belt 
-    ##                    13462                    13462                    13462 
+    ##                    13447                    13447                    13447 
     ##           min_pitch_belt             min_yaw_belt      amplitude_roll_belt 
-    ##                    13462                    13462                    13462 
+    ##                    13447                    13447                    13447 
     ##     amplitude_pitch_belt       amplitude_yaw_belt     var_total_accel_belt 
-    ##                    13462                    13462                    13462 
+    ##                    13447                    13447                    13447 
     ##            avg_roll_belt         stddev_roll_belt            var_roll_belt 
-    ##                    13462                    13462                    13462 
+    ##                    13447                    13447                    13447 
     ##           avg_pitch_belt        stddev_pitch_belt           var_pitch_belt 
-    ##                    13462                    13462                    13462 
+    ##                    13447                    13447                    13447 
     ##             avg_yaw_belt          stddev_yaw_belt             var_yaw_belt 
-    ##                    13462                    13462                    13462 
+    ##                    13447                    13447                    13447 
     ##             gyros_belt_x             gyros_belt_y             gyros_belt_z 
     ##                        0                        0                        0 
     ##             accel_belt_x             accel_belt_y             accel_belt_z 
@@ -224,49 +224,49 @@ Checking for the instances of missing values:
     ##                 roll_arm                pitch_arm                  yaw_arm 
     ##                        0                        0                        0 
     ##          total_accel_arm            var_accel_arm             avg_roll_arm 
-    ##                        0                    13462                    13462 
+    ##                        0                    13447                    13447 
     ##          stddev_roll_arm             var_roll_arm            avg_pitch_arm 
-    ##                    13462                    13462                    13462 
+    ##                    13447                    13447                    13447 
     ##         stddev_pitch_arm            var_pitch_arm              avg_yaw_arm 
-    ##                    13462                    13462                    13462 
+    ##                    13447                    13447                    13447 
     ##           stddev_yaw_arm              var_yaw_arm              gyros_arm_x 
-    ##                    13462                    13462                        0 
+    ##                    13447                    13447                        0 
     ##              gyros_arm_y              gyros_arm_z              accel_arm_x 
     ##                        0                        0                        0 
     ##              accel_arm_y              accel_arm_z             magnet_arm_x 
     ##                        0                        0                        0 
     ##             magnet_arm_y             magnet_arm_z        kurtosis_roll_arm 
-    ##                        0                        0                    13462 
+    ##                        0                        0                    13447 
     ##       kurtosis_picth_arm         kurtosis_yaw_arm        skewness_roll_arm 
-    ##                    13462                    13462                    13462 
+    ##                    13447                    13447                    13447 
     ##       skewness_pitch_arm         skewness_yaw_arm             max_roll_arm 
-    ##                    13462                    13462                    13462 
+    ##                    13447                    13447                    13447 
     ##            max_picth_arm              max_yaw_arm             min_roll_arm 
-    ##                    13462                    13462                    13462 
+    ##                    13447                    13447                    13447 
     ##            min_pitch_arm              min_yaw_arm       amplitude_roll_arm 
-    ##                    13462                    13462                    13462 
+    ##                    13447                    13447                    13447 
     ##      amplitude_pitch_arm        amplitude_yaw_arm            roll_dumbbell 
-    ##                    13462                    13462                        0 
+    ##                    13447                    13447                        0 
     ##           pitch_dumbbell             yaw_dumbbell   kurtosis_roll_dumbbell 
-    ##                        0                        0                    13462 
+    ##                        0                        0                    13447 
     ##  kurtosis_picth_dumbbell    kurtosis_yaw_dumbbell   skewness_roll_dumbbell 
-    ##                    13462                    13462                    13462 
+    ##                    13447                    13447                    13447 
     ##  skewness_pitch_dumbbell    skewness_yaw_dumbbell        max_roll_dumbbell 
-    ##                    13462                    13462                    13462 
+    ##                    13447                    13447                    13447 
     ##       max_picth_dumbbell         max_yaw_dumbbell        min_roll_dumbbell 
-    ##                    13462                    13462                    13462 
+    ##                    13447                    13447                    13447 
     ##       min_pitch_dumbbell         min_yaw_dumbbell  amplitude_roll_dumbbell 
-    ##                    13462                    13462                    13462 
+    ##                    13447                    13447                    13447 
     ## amplitude_pitch_dumbbell   amplitude_yaw_dumbbell     total_accel_dumbbell 
-    ##                    13462                    13462                        0 
+    ##                    13447                    13447                        0 
     ##       var_accel_dumbbell        avg_roll_dumbbell     stddev_roll_dumbbell 
-    ##                    13462                    13462                    13462 
+    ##                    13447                    13447                    13447 
     ##        var_roll_dumbbell       avg_pitch_dumbbell    stddev_pitch_dumbbell 
-    ##                    13462                    13462                    13462 
+    ##                    13447                    13447                    13447 
     ##       var_pitch_dumbbell         avg_yaw_dumbbell      stddev_yaw_dumbbell 
-    ##                    13462                    13462                    13462 
+    ##                    13447                    13447                    13447 
     ##         var_yaw_dumbbell         gyros_dumbbell_x         gyros_dumbbell_y 
-    ##                    13462                        0                        0 
+    ##                    13447                        0                        0 
     ##         gyros_dumbbell_z         accel_dumbbell_x         accel_dumbbell_y 
     ##                        0                        0                        0 
     ##         accel_dumbbell_z        magnet_dumbbell_x        magnet_dumbbell_y 
@@ -274,23 +274,23 @@ Checking for the instances of missing values:
     ##        magnet_dumbbell_z             roll_forearm            pitch_forearm 
     ##                        0                        0                        0 
     ##              yaw_forearm    kurtosis_roll_forearm   kurtosis_picth_forearm 
-    ##                        0                    13462                    13462 
+    ##                        0                    13447                    13447 
     ##     kurtosis_yaw_forearm    skewness_roll_forearm   skewness_pitch_forearm 
-    ##                    13462                    13462                    13462 
+    ##                    13447                    13447                    13447 
     ##     skewness_yaw_forearm         max_roll_forearm        max_picth_forearm 
-    ##                    13462                    13462                    13462 
+    ##                    13447                    13447                    13447 
     ##          max_yaw_forearm         min_roll_forearm        min_pitch_forearm 
-    ##                    13462                    13462                    13462 
+    ##                    13447                    13447                    13447 
     ##          min_yaw_forearm   amplitude_roll_forearm  amplitude_pitch_forearm 
-    ##                    13462                    13462                    13462 
+    ##                    13447                    13447                    13447 
     ##    amplitude_yaw_forearm      total_accel_forearm        var_accel_forearm 
-    ##                    13462                        0                    13462 
+    ##                    13447                        0                    13447 
     ##         avg_roll_forearm      stddev_roll_forearm         var_roll_forearm 
-    ##                    13462                    13462                    13462 
+    ##                    13447                    13447                    13447 
     ##        avg_pitch_forearm     stddev_pitch_forearm        var_pitch_forearm 
-    ##                    13462                    13462                    13462 
+    ##                    13447                    13447                    13447 
     ##          avg_yaw_forearm       stddev_yaw_forearm          var_yaw_forearm 
-    ##                    13462                    13462                    13462 
+    ##                    13447                    13447                    13447 
     ##          gyros_forearm_x          gyros_forearm_y          gyros_forearm_z 
     ##                        0                        0                        0 
     ##          accel_forearm_x          accel_forearm_y          accel_forearm_z 
@@ -312,23 +312,23 @@ Checking what percentage of data is missing in these columns:
     ##               num_window                roll_belt               pitch_belt 
     ##                0.0000000                0.0000000                0.0000000 
     ##                 yaw_belt         total_accel_belt       kurtosis_roll_belt 
-    ##                0.0000000                0.0000000                0.9799811 
+    ##                0.0000000                0.0000000                0.9788891 
     ##      kurtosis_picth_belt        kurtosis_yaw_belt       skewness_roll_belt 
-    ##                0.9799811                0.9799811                0.9799811 
+    ##                0.9788891                0.9788891                0.9788891 
     ##     skewness_roll_belt.1        skewness_yaw_belt            max_roll_belt 
-    ##                0.9799811                0.9799811                0.9799811 
+    ##                0.9788891                0.9788891                0.9788891 
     ##           max_picth_belt             max_yaw_belt            min_roll_belt 
-    ##                0.9799811                0.9799811                0.9799811 
+    ##                0.9788891                0.9788891                0.9788891 
     ##           min_pitch_belt             min_yaw_belt      amplitude_roll_belt 
-    ##                0.9799811                0.9799811                0.9799811 
+    ##                0.9788891                0.9788891                0.9788891 
     ##     amplitude_pitch_belt       amplitude_yaw_belt     var_total_accel_belt 
-    ##                0.9799811                0.9799811                0.9799811 
+    ##                0.9788891                0.9788891                0.9788891 
     ##            avg_roll_belt         stddev_roll_belt            var_roll_belt 
-    ##                0.9799811                0.9799811                0.9799811 
+    ##                0.9788891                0.9788891                0.9788891 
     ##           avg_pitch_belt        stddev_pitch_belt           var_pitch_belt 
-    ##                0.9799811                0.9799811                0.9799811 
+    ##                0.9788891                0.9788891                0.9788891 
     ##             avg_yaw_belt          stddev_yaw_belt             var_yaw_belt 
-    ##                0.9799811                0.9799811                0.9799811 
+    ##                0.9788891                0.9788891                0.9788891 
     ##             gyros_belt_x             gyros_belt_y             gyros_belt_z 
     ##                0.0000000                0.0000000                0.0000000 
     ##             accel_belt_x             accel_belt_y             accel_belt_z 
@@ -338,49 +338,49 @@ Checking what percentage of data is missing in these columns:
     ##                 roll_arm                pitch_arm                  yaw_arm 
     ##                0.0000000                0.0000000                0.0000000 
     ##          total_accel_arm            var_accel_arm             avg_roll_arm 
-    ##                0.0000000                0.9799811                0.9799811 
+    ##                0.0000000                0.9788891                0.9788891 
     ##          stddev_roll_arm             var_roll_arm            avg_pitch_arm 
-    ##                0.9799811                0.9799811                0.9799811 
+    ##                0.9788891                0.9788891                0.9788891 
     ##         stddev_pitch_arm            var_pitch_arm              avg_yaw_arm 
-    ##                0.9799811                0.9799811                0.9799811 
+    ##                0.9788891                0.9788891                0.9788891 
     ##           stddev_yaw_arm              var_yaw_arm              gyros_arm_x 
-    ##                0.9799811                0.9799811                0.0000000 
+    ##                0.9788891                0.9788891                0.0000000 
     ##              gyros_arm_y              gyros_arm_z              accel_arm_x 
     ##                0.0000000                0.0000000                0.0000000 
     ##              accel_arm_y              accel_arm_z             magnet_arm_x 
     ##                0.0000000                0.0000000                0.0000000 
     ##             magnet_arm_y             magnet_arm_z        kurtosis_roll_arm 
-    ##                0.0000000                0.0000000                0.9799811 
+    ##                0.0000000                0.0000000                0.9788891 
     ##       kurtosis_picth_arm         kurtosis_yaw_arm        skewness_roll_arm 
-    ##                0.9799811                0.9799811                0.9799811 
+    ##                0.9788891                0.9788891                0.9788891 
     ##       skewness_pitch_arm         skewness_yaw_arm             max_roll_arm 
-    ##                0.9799811                0.9799811                0.9799811 
+    ##                0.9788891                0.9788891                0.9788891 
     ##            max_picth_arm              max_yaw_arm             min_roll_arm 
-    ##                0.9799811                0.9799811                0.9799811 
+    ##                0.9788891                0.9788891                0.9788891 
     ##            min_pitch_arm              min_yaw_arm       amplitude_roll_arm 
-    ##                0.9799811                0.9799811                0.9799811 
+    ##                0.9788891                0.9788891                0.9788891 
     ##      amplitude_pitch_arm        amplitude_yaw_arm            roll_dumbbell 
-    ##                0.9799811                0.9799811                0.0000000 
+    ##                0.9788891                0.9788891                0.0000000 
     ##           pitch_dumbbell             yaw_dumbbell   kurtosis_roll_dumbbell 
-    ##                0.0000000                0.0000000                0.9799811 
+    ##                0.0000000                0.0000000                0.9788891 
     ##  kurtosis_picth_dumbbell    kurtosis_yaw_dumbbell   skewness_roll_dumbbell 
-    ##                0.9799811                0.9799811                0.9799811 
+    ##                0.9788891                0.9788891                0.9788891 
     ##  skewness_pitch_dumbbell    skewness_yaw_dumbbell        max_roll_dumbbell 
-    ##                0.9799811                0.9799811                0.9799811 
+    ##                0.9788891                0.9788891                0.9788891 
     ##       max_picth_dumbbell         max_yaw_dumbbell        min_roll_dumbbell 
-    ##                0.9799811                0.9799811                0.9799811 
+    ##                0.9788891                0.9788891                0.9788891 
     ##       min_pitch_dumbbell         min_yaw_dumbbell  amplitude_roll_dumbbell 
-    ##                0.9799811                0.9799811                0.9799811 
+    ##                0.9788891                0.9788891                0.9788891 
     ## amplitude_pitch_dumbbell   amplitude_yaw_dumbbell     total_accel_dumbbell 
-    ##                0.9799811                0.9799811                0.0000000 
+    ##                0.9788891                0.9788891                0.0000000 
     ##       var_accel_dumbbell        avg_roll_dumbbell     stddev_roll_dumbbell 
-    ##                0.9799811                0.9799811                0.9799811 
+    ##                0.9788891                0.9788891                0.9788891 
     ##        var_roll_dumbbell       avg_pitch_dumbbell    stddev_pitch_dumbbell 
-    ##                0.9799811                0.9799811                0.9799811 
+    ##                0.9788891                0.9788891                0.9788891 
     ##       var_pitch_dumbbell         avg_yaw_dumbbell      stddev_yaw_dumbbell 
-    ##                0.9799811                0.9799811                0.9799811 
+    ##                0.9788891                0.9788891                0.9788891 
     ##         var_yaw_dumbbell         gyros_dumbbell_x         gyros_dumbbell_y 
-    ##                0.9799811                0.0000000                0.0000000 
+    ##                0.9788891                0.0000000                0.0000000 
     ##         gyros_dumbbell_z         accel_dumbbell_x         accel_dumbbell_y 
     ##                0.0000000                0.0000000                0.0000000 
     ##         accel_dumbbell_z        magnet_dumbbell_x        magnet_dumbbell_y 
@@ -388,23 +388,23 @@ Checking what percentage of data is missing in these columns:
     ##        magnet_dumbbell_z             roll_forearm            pitch_forearm 
     ##                0.0000000                0.0000000                0.0000000 
     ##              yaw_forearm    kurtosis_roll_forearm   kurtosis_picth_forearm 
-    ##                0.0000000                0.9799811                0.9799811 
+    ##                0.0000000                0.9788891                0.9788891 
     ##     kurtosis_yaw_forearm    skewness_roll_forearm   skewness_pitch_forearm 
-    ##                0.9799811                0.9799811                0.9799811 
+    ##                0.9788891                0.9788891                0.9788891 
     ##     skewness_yaw_forearm         max_roll_forearm        max_picth_forearm 
-    ##                0.9799811                0.9799811                0.9799811 
+    ##                0.9788891                0.9788891                0.9788891 
     ##          max_yaw_forearm         min_roll_forearm        min_pitch_forearm 
-    ##                0.9799811                0.9799811                0.9799811 
+    ##                0.9788891                0.9788891                0.9788891 
     ##          min_yaw_forearm   amplitude_roll_forearm  amplitude_pitch_forearm 
-    ##                0.9799811                0.9799811                0.9799811 
+    ##                0.9788891                0.9788891                0.9788891 
     ##    amplitude_yaw_forearm      total_accel_forearm        var_accel_forearm 
-    ##                0.9799811                0.0000000                0.9799811 
+    ##                0.9788891                0.0000000                0.9788891 
     ##         avg_roll_forearm      stddev_roll_forearm         var_roll_forearm 
-    ##                0.9799811                0.9799811                0.9799811 
+    ##                0.9788891                0.9788891                0.9788891 
     ##        avg_pitch_forearm     stddev_pitch_forearm        var_pitch_forearm 
-    ##                0.9799811                0.9799811                0.9799811 
+    ##                0.9788891                0.9788891                0.9788891 
     ##          avg_yaw_forearm       stddev_yaw_forearm          var_yaw_forearm 
-    ##                0.9799811                0.9799811                0.9799811 
+    ##                0.9788891                0.9788891                0.9788891 
     ##          gyros_forearm_x          gyros_forearm_y          gyros_forearm_z 
     ##                0.0000000                0.0000000                0.0000000 
     ##          accel_forearm_x          accel_forearm_y          accel_forearm_z 
@@ -414,104 +414,34 @@ Checking what percentage of data is missing in these columns:
     ##                   classe 
     ##                0.0000000
 
-Nearly 98% data is missing in these columns!  
-There is no point in applying KNN Imputation on them.  
-Hence it would be best to drop these columns:
+Most of the Data is Missing in these Columns Hence there is no point in
+applying KNN Imputation on them.  
+And Going with the Random Forest Algorithm would be better as it would
+choose the important points
 
-    X_train <- df_train[ , colSums(is.na(df_train)) == 0]
+    x_train <- df_train[ , colSums(is.na(df_train)) == 0]
     #removing those columns which were removed in training set
-    X_val <- X_val[ , colSums(is.na(df_train)) == 0]
 
-Saving the character class column names separately for future
-references:
-
-    cat_cols <- names(df_train[sapply(df_train, is.character)])
-
-The reason for creating `cat_cols` is that if the models perform poorly,
-an alternative approach can be explored where I drop the categorical
-columns and then train the models.  
-Since the models of choice are tree based, there is no need for **Data
-Scaling** since these models do not require feature scaling.
-
-### Modeling
-
-#### Decision Tree
-
-Training a decision tree on `X_train` and evaluating its on performance
-of predicting `X_val`:
-
-    set.seed(32343)
-    tree_model <- train(as.factor(classe) ~., data = X_train, method = 'rpart')
-    tree_predictions <- predict(tree_model, newdata = X_val)
-    confusionMatrix(tree_predictions, as.factor(X_val$classe))
-
-    ## Confusion Matrix and Statistics
-    ## 
-    ##           Reference
-    ## Prediction    A    B    C    D    E
-    ##          A 1674    0    0    0    0
-    ##          B    0 1139    0    0    0
-    ##          C    0    0    0    0    0
-    ##          D    0    0    0    0    0
-    ##          E    0    0 1026  964 1082
-    ## 
-    ## Overall Statistics
-    ##                                           
-    ##                Accuracy : 0.6619          
-    ##                  95% CI : (0.6496, 0.6739)
-    ##     No Information Rate : 0.2845          
-    ##     P-Value [Acc > NIR] : < 2.2e-16       
-    ##                                           
-    ##                   Kappa : 0.5696          
-    ##                                           
-    ##  Mcnemar's Test P-Value : NA              
-    ## 
-    ## Statistics by Class:
-    ## 
-    ##                      Class: A Class: B Class: C Class: D Class: E
-    ## Sensitivity            1.0000   1.0000   0.0000   0.0000   1.0000
-    ## Specificity            1.0000   1.0000   1.0000   1.0000   0.5857
-    ## Pos Pred Value         1.0000   1.0000      NaN      NaN   0.3522
-    ## Neg Pred Value         1.0000   1.0000   0.8257   0.8362   1.0000
-    ## Prevalence             0.2845   0.1935   0.1743   0.1638   0.1839
-    ## Detection Rate         0.2845   0.1935   0.0000   0.0000   0.1839
-    ## Detection Prevalence   0.2845   0.1935   0.0000   0.0000   0.5220
-    ## Balanced Accuracy      1.0000   1.0000   0.5000   0.5000   0.7928
-
-Plotting the decision tree:
-
-    fancyRpartPlot(tree_model$finalModel)
-
-![](practical_machine_learning_files/figure-markdown_strict/unnamed-chunk-14-1.png)
-
-    savePlotToFile(file.name = 'tree.png', dev.num=dev.cur())
-
-    ## [1] TRUE
-
-The accuracy of the decision tree is quite bad.  
-Let’s switch to another model in hopes of producing better results.
+    x_val <- x_val[ , colSums(is.na(df_train)) == 0]
 
 #### Random Forest
 
-While working on the project, I noticed that the conventional random
-forest model was taking too long to train. So I used `randomForest()`
-function for training.  
+Here i have used the `randomForest()` function for training instead of
+the conventional Randomforest model  
 The documentation for this model :
 <https://cran.r-project.org/web/packages/randomForest/randomForest.pdf>
 
-Training a random forest on `X_train` and evaluating its on performance
-of predicting `X_val`:
+Training a random forest on `x_train` and evaluating its on performance
+of predicting `x_val`:
 
     set.seed(32343)
-    #Discarded method: 
-    #rf_model <- train(as.factor(classe) ~., data = X_train, method = 'rf', importance =TRUE, ntree = 10)
-    #Replacement:
-    rf_model <- randomForest(as.factor(classe) ~ .,data=X_train, importance =TRUE, ntree = 10)
+
+    rf_model <- randomForest(as.factor(classe) ~ .,data=x_train, importance =TRUE, ntree = 10)
 
 Testing model’s performance on validation data:
 
-    rf_predictions <- predict(rf_model, X_val)
-    confusionMatrix(rf_predictions, as.factor(X_val$classe))
+    rf_predictions <- predict(rf_model, x_val)
+    confusionMatrix(rf_predictions, as.factor(x_val$classe))
 
     ## Confusion Matrix and Statistics
     ## 
@@ -520,47 +450,41 @@ Testing model’s performance on validation data:
     ##          A 1674    0    0    0    0
     ##          B    0 1139    0    0    0
     ##          C    0    0 1026    0    0
-    ##          D    0    0    0  964    3
-    ##          E    0    0    0    0 1079
+    ##          D    0    0    0  964    0
+    ##          E    0    0    0    0 1082
     ## 
     ## Overall Statistics
-    ##                                           
-    ##                Accuracy : 0.9995          
-    ##                  95% CI : (0.9985, 0.9999)
-    ##     No Information Rate : 0.2845          
-    ##     P-Value [Acc > NIR] : < 2.2e-16       
-    ##                                           
-    ##                   Kappa : 0.9994          
-    ##                                           
-    ##  Mcnemar's Test P-Value : NA              
+    ##                                      
+    ##                Accuracy : 1          
+    ##                  95% CI : (0.9994, 1)
+    ##     No Information Rate : 0.2845     
+    ##     P-Value [Acc > NIR] : < 2.2e-16  
+    ##                                      
+    ##                   Kappa : 1          
+    ##                                      
+    ##  Mcnemar's Test P-Value : NA         
     ## 
     ## Statistics by Class:
     ## 
     ##                      Class: A Class: B Class: C Class: D Class: E
-    ## Sensitivity            1.0000   1.0000   1.0000   1.0000   0.9972
-    ## Specificity            1.0000   1.0000   1.0000   0.9994   1.0000
-    ## Pos Pred Value         1.0000   1.0000   1.0000   0.9969   1.0000
-    ## Neg Pred Value         1.0000   1.0000   1.0000   1.0000   0.9994
+    ## Sensitivity            1.0000   1.0000   1.0000   1.0000   1.0000
+    ## Specificity            1.0000   1.0000   1.0000   1.0000   1.0000
+    ## Pos Pred Value         1.0000   1.0000   1.0000   1.0000   1.0000
+    ## Neg Pred Value         1.0000   1.0000   1.0000   1.0000   1.0000
     ## Prevalence             0.2845   0.1935   0.1743   0.1638   0.1839
-    ## Detection Rate         0.2845   0.1935   0.1743   0.1638   0.1833
-    ## Detection Prevalence   0.2845   0.1935   0.1743   0.1643   0.1833
-    ## Balanced Accuracy      1.0000   1.0000   1.0000   0.9997   0.9986
-
-Since the accuracy achieved is good enough, there is no need to try
-other models like Gradient Boosting.
+    ## Detection Rate         0.2845   0.1935   0.1743   0.1638   0.1839
+    ## Detection Prevalence   0.2845   0.1935   0.1743   0.1638   0.1839
+    ## Balanced Accuracy      1.0000   1.0000   1.0000   1.0000   1.0000
 
 ### Conclusions
 
-Random forest classifier’s accuracy is 99.9%!  
-This model outweighs decision tree.  
-Hence, Random Forest is chosen.
+Random forest classifier’s accuracy is 99.9%
 
 #### Expected Out Of Sample Error
 
 Expected out of sample error, i.e. the error rate on new data for the
-chosen model is 0.01%!  
-The random forest model is predicting extremely well on the validation
-set.  
+chosen model is 0.01%!
+
 Since the generalization error of the model is so less, we can be
 confident about the model’s predictions made for the `df_test`.
 
@@ -573,7 +497,7 @@ confident about the model’s predictions made for the `df_test`.
     print(test_predictions)
 
     ##  1  2  3  4  5  6  7  8  9 10 11 12 13 14 15 16 17 18 19 20 
-    ##  A  A  A  A  A  A  A  A  A  A  A  A  A  A  A  A  A  B  A  A 
+    ##  A  A  A  A  A  A  A  A  A  A  A  A  A  A  A  A  A  A  A  A 
     ## Levels: A B C D E
 
-Thank you for going through this project.
+Thank you !

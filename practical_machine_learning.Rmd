@@ -3,9 +3,9 @@ title: "Practical Machine Learning Project"
 author: "Anirudh Bharadwaj"
 date: "10/6/2022"
 output:
+  md_document: default
   html_document:
     df_print: paged
-  md_document: default
 ---
 
 ```{r setup, include=FALSE}
