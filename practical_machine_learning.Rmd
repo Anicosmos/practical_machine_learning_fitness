@@ -1,0 +1,133 @@
+---
+title: "Practical Machine Learning Project"
+author: "Anirudh Bharadwaj"
+date: "10/6/2022"
+output:
+  html_document:
+    df_print: paged
+  md_document: default
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+### Background  
+Using devices such as Jawbone Up, Nike FuelBand, and Fitbit it is now possible to collect a large amount of data about personal activity relatively inexpensively. These type of devices are part of the quantified self movement – a group of enthusiasts who take measurements about themselves regularly to improve their health, to find patterns in their behavior, or because they are tech geeks. One thing that people regularly do is quantify how much of a particular activity they do, but they rarely quantify how well they do it. In this project, your goal will be to use data from accelerometers on the belt, forearm, arm, and dumbell of 6 participants. They were asked to perform barbell lifts correctly and incorrectly in 5 different ways. More information is available from the website here: <http://web.archive.org/web/20161224072740/http:/groupware.les.inf.puc-rio.br/har>.  
+
+### Data  
+  
+The training data for this project can be found here:  
+
+<https://d396qusza40orc.cloudfront.net/predmachlearn/pml-training.csv>  
+  
+The test data can be found here:  
+
+<https://d396qusza40orc.cloudfront.net/predmachlearn/pml-testing.csv>  
+  
+### Loading libraries
+```{r warning=FALSE}
+library(caret)
+library(rattle)
+library(knitr)
+library(randomForest)
+```
+
+### Loading datasets  
+First we Load the training and the testing data into `df_train` and `df_test` and any instances of `NA` and `""` will be considered as `NA`.
+
+```{r cache = TRUE}
+df_train <- read.csv('pml-training.csv', na.strings = c("NA", ""))
+df_test <- read.csv('pml-testing.csv', na.strings = c("NA", ""))
+```
+Before Proceeding further lets Check the dimensions of the training and testing data:  
+```{r}
+dim(df_train)
+```
+
+```{r}
+dim(df_test)
+```
+
+And Checking out the names of the columns in the dataset:  
+```{r}
+names(df_train)
+```
+The name of our target column is `classe`.  
+
+### Data Splitting  
+Splitting the `df_train` into training and validation sets for cross validation :  
+```{r cache = TRUE}
+train_idx <- createDataPartition(df_train$classe, p = 0.7, list = FALSE)
+x_val <- df_train[-train_idx, ]
+df_train <- df_train[train_idx, ]
+```
+
+Checking out the dimensions of these datasets:  
+```{r}
+dim(df_train)
+```
+
+```{r}
+dim(x_val)
+```
+  
+### Data Preprocessing  
+
+Checking for the instances of missing values:  
+```{r}
+colSums(is.na(df_train))
+```
+
+Many columns tend to have missing values.  
+Checking what percentage of data is missing in these columns:  
+```{r}
+colMeans(is.na(df_train))
+```
+
+Most of the Data is Missing in these Columns 
+Hence there is no point in applying KNN Imputation on them.  
+And Going with the Random Forest Algorithm would be better as it would choose the important points
+```{r}
+x_train <- df_train[ , colSums(is.na(df_train)) == 0]
+#removing those columns which were removed in training set
+
+x_val <- x_val[ , colSums(is.na(df_train)) == 0]
+```
+
+#### Random Forest  
+Here i have used the `randomForest()` function for training instead of the conventional Randomforest model  
+The documentation for this model : <https://cran.r-project.org/web/packages/randomForest/randomForest.pdf>  
+  
+Training a random forest on `x_train` and evaluating its on performance of predicting `x_val`:  
+```{r cache= TRUE}
+set.seed(32343)
+
+rf_model <- randomForest(as.factor(classe) ~ .,data=x_train, importance =TRUE, ntree = 10)
+```  
+
+Testing model's performance on validation data:  
+```{r}
+rf_predictions <- predict(rf_model, x_val)
+confusionMatrix(rf_predictions, as.factor(x_val$classe))
+```
+
+### Conclusions  
+Random forest classifier's accuracy is 99.9% 
+
+#### Expected Out Of Sample Error  
+Expected out of sample error, i.e. the error rate on new data for the chosen model is 0.01%!  
+ 
+Since the generalization error of the model is so less, we can be confident about the model's predictions made for the `df_test`.  
+    
+  
+  
+#### Submission set Prediction  
+```{r}
+#pre-processing of the test set : removing those columns which were removed in training set.
+X_test <- df_test[ , colSums(is.na(df_train)) == 0]
+#predictions 
+test_predictions <- predict(rf_model, X_test)
+print(test_predictions)
+```
+  
+Thank you ! 
